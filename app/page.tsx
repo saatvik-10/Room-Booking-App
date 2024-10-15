@@ -22,7 +22,7 @@ export default function Home() {
     <div>
       <Heading title='Available Rooms' />
       {rooms.length > 0 ? (
-        rooms.map((room) => <RoomCard room={room} />)
+        rooms.map((room) => <RoomCard room={room} key={room.$id} />)
       ) : (
         <p>No rooms available</p>
       )}
