@@ -2,6 +2,7 @@ import RoomCard from '@/components/RoomCard';
 import rooms from '@/data/rooms.json';
 
 interface Room {
+  id: number;
   user_id: number;
   name: string;
   description: string;
