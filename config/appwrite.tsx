@@ -27,7 +27,7 @@ const createSessionClient = async (session: string) => {
     .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT as string);
 
   if (session) {
-    client.setSession(session);
+    client.setSession(session); //setSession used to sent coolkie to the appwrite client
   }
 
   return {
