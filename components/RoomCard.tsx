@@ -1,21 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-
-interface Room {
-  $id: string;
-  user_id: string;
-  name: string;
-  description: string;
-  sqft: number;
-  capacity: number;
-  location: string;
-  address: string;
-  amenities: string;
-  availability: string;
-  price_per_hour: number;
-  image: string;
-}
+import {Room} from '@/types/room';
 
 const RoomCard = ({ room }: { room: Room }) => {
   return (
