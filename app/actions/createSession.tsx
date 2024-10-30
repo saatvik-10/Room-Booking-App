@@ -14,11 +14,11 @@ async function createSession(previousState: SessionState, formData: FormData) {
     return {
       error: 'Please fill in all fields',
     };
-  } else {
-    return {
-      success: 'Logged in successfully',
-    };
   }
+
+  return {
+    success: 'Logged in successfully',
+  };
 }
 
 export default createSession;
