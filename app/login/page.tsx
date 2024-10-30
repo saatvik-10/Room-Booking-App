@@ -4,13 +4,14 @@ import React, { useReducer, useEffect, use } from 'react';
 import Link from 'next/link';
 import createSession from '@/app/actions/createSession';
 import { useFormState } from 'react-dom';
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const [state, formAction] = useFormState(createSession, {});
 
   useEffect(() => {
     if (state?.error) {
-      console.log(state.error);
+      toast.error(state.error);
     }
   }, [state]);
 
