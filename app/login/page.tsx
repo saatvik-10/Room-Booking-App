@@ -1,12 +1,18 @@
 'use client';
 
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useEffect, use } from 'react';
 import Link from 'next/link';
 import createSession from '@/app/actions/createSession';
 import { useFormState } from 'react-dom';
 
 const Login = () => {
   const [state, formAction] = useFormState(createSession, {});
+
+  useEffect(() => {
+    if (state?.error) {
+      console.log(state.error);
+    }
+  }, [state]);
 
   return (
     <div>
@@ -29,7 +35,7 @@ const Login = () => {
                 id='email'
                 name='email'
                 className='border rounded w-full py-2 px-3'
-                required
+                // required
               />
             </div>
 
