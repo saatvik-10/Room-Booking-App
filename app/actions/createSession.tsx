@@ -1,5 +1,8 @@
 'use server';
 
+import { createAdminClient } from '@/config/appwrite';
+import { cookies } from 'next/headers';
+
 interface SessionState {
   isAuthenticated: boolean;
 }
@@ -16,9 +19,31 @@ async function createSession(previousState: SessionState, formData: FormData) {
     };
   }
 
-  return {
-    success: 'Logged in successfully',
-  };
+  //get account instance
+  const { account } = await createAdminClient();
+
+  try {
+    //create session
+    const session = await account.createEmailPasswordSession(email, password);
+
+    //create cookie
+    cookies().set('appwrite-session', session.secret, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+      expires: new Date(session.expire),
+      path: '/',
+    });
+
+    return {
+      success: 'Logged in successfully',
+    };
+  } catch (err) {
+    console.log('Authentication Error', err);
+    return {
+      error: 'Invalid Credentials',
+    };
+  }
 }
 
 export default createSession;
