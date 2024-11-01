@@ -1,6 +1,6 @@
 'use client';
 
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from '@/assets/images/logo.png';
@@ -15,14 +15,14 @@ const Header: React.FC = () => {
 
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
-  useEffect(()=>{
+  useEffect(() => {
     const fetchAuthStatus = async () => {
       const res = await checkAuth();
       setIsAuthenticated(res.isAuthenticated);
-    }
+    };
 
     fetchAuthStatus();
-  }, [])
+  }, []);
 
   const handleLogout = async () => {
     const { success, error } = await destroySession();
@@ -55,48 +55,58 @@ const Header: React.FC = () => {
                   Rooms
                 </Link>
 
-                {/* Logged In Only */}
-                <Link
-                  href='/bookings'
-                  className='rounded-md px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-700 hover:text-white'
-                >
-                  Bookings
-                </Link>
-                <Link
-                  href='/rooms/add'
-                  className='rounded-md px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-700 hover:text-white'
-                >
-                  Add Room
-                </Link>
+                {isAuthenticated && (
+                  <div>
+                    <Link
+                      href='/bookings'
+                      className='rounded-md px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-700 hover:text-white'
+                    >
+                      Bookings
+                    </Link>
+                    <Link
+                      href='/rooms/add'
+                      className='rounded-md px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-700 hover:text-white'
+                    >
+                      Add Room
+                    </Link>
+                  </div>
+                )}
               </div>
             </div>
           </div>
 
-          {/* //Right Side Menu */}
           <div className='ml-auto'>
             <div className='ml-4 flex items-center md:ml-6'>
-              {/* //Logged Out Only */}
-              <Link
-                href='/login'
-                className='mr-3 text-gray-800 hover:text-gray-600'
-              >
-                <FaSignInAlt className='inline mr-1' /> Login
-              </Link>
-              <Link
-                href='/register'
-                className='mr-3 text-gray-800 hover:text-gray-600'
-              >
-                <FaUser className='inline mr-1' /> Register
-              </Link>
-              <Link href='/rooms/my'>
-                <FaBuilding className='inline mr-1' /> My Rooms
-              </Link>
-              <button
-                onClick={handleLogout}
-                className='mx-3 text-gray-800 hover:text-gray-600'
-              >
-                <FaSignOutAlt className='inline mr-1' /> Sign Out
-              </button>
+              {!isAuthenticated && (
+                <div>
+                  <Link
+                    href='/login'
+                    className='mr-3 text-gray-800 hover:text-gray-600'
+                  >
+                    <FaSignInAlt className='inline mr-1' /> Login
+                  </Link>
+                  <Link
+                    href='/register'
+                    className='mr-3 text-gray-800 hover:text-gray-600'
+                  >
+                    <FaUser className='inline mr-1' /> Register
+                  </Link>
+                </div>
+              )}
+
+              {isAuthenticated && (
+                <div>
+                  <Link href='/rooms/my'>
+                    <FaBuilding className='inline mr-1' /> My Rooms
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className='mx-3 text-gray-800 hover:text-gray-600'
+                  >
+                    <FaSignOutAlt className='inline mr-1' /> Sign Out
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -112,19 +122,22 @@ const Header: React.FC = () => {
             Rooms
           </Link>
 
-          {/* //Logged In Only */}
-          <Link
-            href='/bookings'
-            className='block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-gray-700 hover:text-white'
-          >
-            Bookings
-          </Link>
-          <Link
-            href='/rooms/add'
-            className='block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-gray-700 hover:text-white'
-          >
-            Add Room
-          </Link>
+          {isAuthenticated && (
+            <div>
+              <Link
+                href='/bookings'
+                className='block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-gray-700 hover:text-white'
+              >
+                Bookings
+              </Link>
+              <Link
+                href='/rooms/add'
+                className='block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-gray-700 hover:text-white'
+              >
+                Add Room
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </header>
