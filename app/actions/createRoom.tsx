@@ -11,7 +11,7 @@ interface SessionState {
 
 async function createRoom(previousState: SessionState, formData: FormData) {
   //get database instance
-  const { databases } = await createAdminClient();
+  const { databases, storage } = await createAdminClient();
 
   try {
     const { user } = await checkAuth();
@@ -20,10 +20,33 @@ async function createRoom(previousState: SessionState, formData: FormData) {
       throw new Error('Login to create a room');
     }
 
+    //upload image
+    let imageID;
+    const image = formData.get('image') as File;
+    if (image && image.size > 0 && image.name !== 'undefined') {
+      try {
+        //upload
+        const response = await storage.createFile(
+          'roomify',
+          ID.unique(),
+          image as File
+        );
+        imageID = response.$id; //will go in database
+      } catch (err) {
+        console.log('Error uploading image', err);
+        return {
+          err: 'Error uploading image',
+        };
+      }
+    } else {
+      console.log('No image provided or File is invalid');
+    }
+
     //create room
     const newRoom = await databases.createDocument(
       process.env.NEXT_PUBLIC_APPWRITE_DATABASE as string,
       process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ROOMS as string,
+      // process.env.NEXT_PUBLIC_APPWRITE_STORAGE_BUCKET_ROOMS as string,
       ID.unique(),
       {
         user_id: user.id,
@@ -36,6 +59,7 @@ async function createRoom(previousState: SessionState, formData: FormData) {
         availability: formData.get('availability') as string,
         price_per_hour: formData.get('price_per_hour') as string,
         amenities: formData.get('amenities') as string,
+        image: imageID,
       }
     );
 
