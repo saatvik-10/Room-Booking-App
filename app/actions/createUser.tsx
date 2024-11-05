@@ -38,7 +38,7 @@ async function createUser(previousState: SessionState, formData: FormData) {
 
   try {
     //create user
-    const user = await account.create(ID.unique(), email, password, name);
+    await account.create(ID.unique(), email, password, name);
 
     return {
       success: 'User created successfully',
