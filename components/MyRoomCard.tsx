@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Room } from '@/types/room';
-import { FaTrash, FaEye } from 'react-icons/fa';
+import { FaEye } from 'react-icons/fa';
+import DeleteRoomBtn from './deleteRoomBtn';
 
 const MyRoomCard = ({ room }: { room: Room }) => {
   return (
@@ -16,9 +17,7 @@ const MyRoomCard = ({ room }: { room: Room }) => {
           <FaEye className='inline mr-1' /> View
         </Link>
 
-        <button className='bg-red-500 text-white px-4 py-2 rounded mb-2 sm:mb-0 w-full sm:w-auto text-center hover:bg-red-700'>
-          <FaTrash className='inline mr-1' /> Delete
-        </button>
+        <DeleteRoomBtn roomId={room.$id} />
       </div>
     </div>
   );
