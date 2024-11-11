@@ -7,7 +7,10 @@ import { useRouter } from 'next/navigation';
 import bookRoom from '@/app/actions/bookRoom';
 
 const BookingForm = ({ room }: any) => {
-  const [state, formAction] = useFormState(bookRoom, {});
+  const [state, formAction] = useFormState(bookRoom, {
+    error: '',
+    success: '',
+  });
 
   const route = useRouter();
 

@@ -9,7 +9,10 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/authContext';
 
 const Login = () => {
-  const [state, formAction] = useFormState(createSession, {});
+  const [state, formAction] = useFormState(createSession, {
+    error: '',
+    success: '',
+  });
 
   const { isAuthenticated, setIsAuthenticated } = useAuth();
 

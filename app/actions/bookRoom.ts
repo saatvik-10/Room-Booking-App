@@ -8,11 +8,7 @@ import checkAuth from '@/app/actions/checkAuth';
 import { revalidatePath } from 'next/cache';
 import checkRoomAvailability from '@/app/actions/checkRoomAvailability';
 
-interface SessionState {
-  isAuthenticated: boolean;
-}
-
-async function bookRoom(previousState: SessionState, formData: FormData) {
+async function bookRoom(prevState: { message: string }, formData: FormData) {
   const sessionCookie = cookies().get('appwrite-session');
 
   if (!sessionCookie) {

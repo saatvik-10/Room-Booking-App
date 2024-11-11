@@ -8,7 +8,10 @@ import { useRouter } from 'next/navigation';
 import createRoom from '@/app/actions/createRoom';
 
 const AddRoom = () => {
-  const [state, formAction] = useFormState(createRoom, {});
+  const [state, formAction] = useFormState(createRoom, {
+    err: '',
+    success: '',
+  });
 
   const route = useRouter();
 
