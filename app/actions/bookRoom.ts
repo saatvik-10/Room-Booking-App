@@ -52,7 +52,7 @@ async function bookRoom(previousState: SessionState, formData: FormData) {
 
     if (!isAvailable) {
       return {
-        error: 'Room is already book for the selected dates',
+        error: 'Room is already booked for the selected dates',
       };
     }
 

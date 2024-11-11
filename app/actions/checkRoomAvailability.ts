@@ -5,12 +5,12 @@ import { cookies } from 'next/headers';
 import { Query } from 'node-appwrite';
 import { redirect } from 'next/navigation';
 import { DateTime } from 'luxon';
-import { Room } from '@/types/room';
-import { error } from 'console';
 
 //convert date string to luxon DateTime
-function toUTCDateTime(dateString: string) {
-  return DateTime.fromISO(dateString, { zone: 'utc' }).toUTC();
+function toISTDateTime(dateString: string) {
+  return DateTime.fromISO(dateString, { zone: 'Asia/Kolkata' }).setZone(
+    'Asia/Kolkata'
+  );
 }
 
 //checkfor overlapped bookings
@@ -41,8 +41,8 @@ async function checkRoomAvailability({
   try {
     const { databases } = await createSessionClient(sessionCookie.value);
 
-    const checkInDateTime = toUTCDateTime(checkIn);
-    const checkOutDateTime = toUTCDateTime(checkOut);
+    const checkInDateTime = toISTDateTime(checkIn);
+    const checkOutDateTime = toISTDateTime(checkOut);
 
     //fetch all bookings for a room
     const { documents: bookings } = await databases.listDocuments(
@@ -53,8 +53,8 @@ async function checkRoomAvailability({
 
     //loop and check for overlaps, data in backend
     for (const booking of bookings) {
-      const bookingCheckInDateTime = toUTCDateTime(booking.check_in);
-      const bookingCheckOutDateTime = toUTCDateTime(booking.check_out);
+      const bookingCheckInDateTime = toISTDateTime(booking.check_in);
+      const bookingCheckOutDateTime = toISTDateTime(booking.check_out);
 
       if (
         dateRangesOverlap(
