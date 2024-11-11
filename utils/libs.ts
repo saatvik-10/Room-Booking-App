@@ -9,7 +9,7 @@ const formatDate = (dateString: Date) => {
   const month = date.toLocaleString('en-IN', options);
 
   //get day
-  const day = date.getUTCDate();
+  const day = date.getDate();
 
   //format time in 12 hr
   const timeOptions: Intl.DateTimeFormatOptions = {
@@ -22,7 +22,7 @@ const formatDate = (dateString: Date) => {
   const time = date.toLocaleDateString('en-IN', timeOptions);
 
   //formatt ed string
-  return `${day} ${month} ${time}`;
+  return `${day} ${month}, ${time}`;
 };
 
 export default formatDate;
