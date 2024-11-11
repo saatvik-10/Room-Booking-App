@@ -4,9 +4,9 @@ import { createSessionClient } from '@/config/appwrite';
 import { cookies } from 'next/headers';
 import { ID } from 'node-appwrite';
 import { redirect } from 'next/navigation';
-// import { Room } from '@/types/room';
 import checkAuth from '@/app/actions/checkAuth';
 import { revalidatePath } from 'next/cache';
+import checkRoomAvailability from '@/app/actions/checkRoomAvailability';
 
 interface SessionState {
   isAuthenticated: boolean;
@@ -37,15 +37,30 @@ async function bookRoom(previousState: SessionState, formData: FormData) {
     const checkInTime = formData.get('check_in_time');
     const checkOutTime = formData.get('check_out_time');
 
+    const roomId = formData.get('room_id') as string;
+
     //combine date and time to ISO 8061 format
     const checkInDateTime = `${checkInDate}T${checkInTime}`;
     const checkOutDateTime = `${checkOutDate}T${checkOutTime}`;
+
+    //check if room is available
+    const isAvailable = await checkRoomAvailability({
+      roomId,
+      checkIn: checkInDateTime,
+      checkOut: checkOutDateTime,
+    });
+
+    if (!isAvailable) {
+      return {
+        error: 'Room is already book for the selected dates',
+      };
+    }
 
     const bookingData = {
       check_in: checkInDateTime,
       check_out: checkOutDateTime,
       user_id: user.id,
-      room_id: formData.get('room_id'),
+      room_id: roomId,
     };
 
     //create booking
