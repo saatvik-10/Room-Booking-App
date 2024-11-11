@@ -7,12 +7,21 @@ const BookingPage = async () => {
 
   return (
     <div>
+      <Heading title='My Bookings' />
       {Array.isArray(bookings) ? (
         bookings.length === 0 ? (
           <p className='text-gray-600 mt-4'>You have no bookings.</p>
         ) : (
           bookings.map((booking) => (
-            <BookedRoomCard booking={booking} key={booking.$id} />
+            <BookedRoomCard
+              booking={{
+                ...booking,
+                room_id: booking.room_id,
+                check_in: booking.check_in,
+                check_out: booking.check_out,
+              }}
+              key={booking.$id}
+            />
           ))
         )
       ) : (
