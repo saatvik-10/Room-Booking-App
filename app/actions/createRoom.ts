@@ -5,7 +5,15 @@ import checkAuth from './checkAuth';
 import { ID } from 'node-appwrite';
 import { revalidatePath } from 'next/cache';
 
-async function createRoom(prevState: { message: string }, formData: FormData) {
+interface SessionResponse {
+  success?: string;
+  err?: string;
+}
+
+async function createRoom(
+  prevState: any,
+  formData: FormData
+): Promise<SessionResponse> {
   //get database instance
   const { databases, storage } = await createAdminClient();
 
@@ -62,7 +70,7 @@ async function createRoom(prevState: { message: string }, formData: FormData) {
     revalidatePath('/', 'layout');
 
     return {
-      success: true,
+      success: 'Room created successfully',
     };
   } catch (err) {
     console.log(err);

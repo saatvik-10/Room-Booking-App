@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useReducer, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import createSession from '@/app/actions/createSession';
 import { useFormState } from 'react-dom';

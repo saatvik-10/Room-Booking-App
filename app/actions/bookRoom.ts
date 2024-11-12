@@ -5,10 +5,18 @@ import { cookies } from 'next/headers';
 import { ID } from 'node-appwrite';
 import { redirect } from 'next/navigation';
 import checkAuth from '@/app/actions/checkAuth';
-import { revalidatePath } from 'next/cache';
 import checkRoomAvailability from '@/app/actions/checkRoomAvailability';
+import { revalidatePath } from 'next/cache';
 
-async function bookRoom(prevState: { message: string }, formData: FormData) {
+type SessionResponse = {
+  success?: string;
+  error?: string;
+};
+
+async function bookRoom(
+  prevState: any,
+  formData: FormData
+): Promise<SessionResponse> {
   const sessionCookie = cookies().get('appwrite-session');
 
   if (!sessionCookie) {
@@ -71,7 +79,7 @@ async function bookRoom(prevState: { message: string }, formData: FormData) {
     revalidatePath('/bookings', 'layout');
 
     return {
-      success: true,
+      success: 'Room booked successfully',
     };
   } catch (err) {
     console.log('Failed to book rooms', err);

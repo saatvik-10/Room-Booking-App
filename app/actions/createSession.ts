@@ -3,10 +3,15 @@
 import { createAdminClient } from '@/config/appwrite';
 import { cookies } from 'next/headers';
 
+type SessionResponse = {
+  success?: string;
+  error?: string;
+};
+
 async function createSession(
-  prevState: { message: string },
+  prevState: any,
   formData: FormData
-) {
+): Promise<SessionResponse> {
   const email = formData.get('email') as string | null;
   const password = formData.get('password') as string | null;
 
