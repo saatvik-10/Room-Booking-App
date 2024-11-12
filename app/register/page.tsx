@@ -8,7 +8,10 @@ import createUser from '@/app/actions/createUser';
 import Link from 'next/link';
 
 const Register = () => {
-  const [state, formAction] = useFormState(createUser, {});
+  const [state, formAction] = useFormState(createUser, {
+    error: '',
+    success: '',
+  });
 
   const route = useRouter();
 

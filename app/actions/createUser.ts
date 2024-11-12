@@ -3,11 +3,15 @@
 import { createAdminClient } from '@/config/appwrite';
 import { ID } from 'node-appwrite';
 
-interface SessionState {
-  isAuthenticated: boolean;
+interface SessionResponse {
+  success?: string;
+  error?: string;
 }
 
-async function createUser(previousState: SessionState, formData: FormData) {
+async function createUser(
+  previousState: any,
+  formData: FormData
+): Promise<SessionResponse> {
   const name = formData.get('name') as string | null;
   const email = formData.get('email') as string | null;
   const password = formData.get('password') as string | null;
